@@ -3,15 +3,16 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="x-apple-disable-message-reformatting">
-    <meta name="format-detection" content="telephone=no,address=no,email=no,date=no,url=no">
+    <meta charset="utf-8"> <!-- utf-8 works for most cases -->
+    <meta name="viewport" content="width=device-width"> <!-- Forcing initial-scale shouldn't be necessary -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- Use the latest (edge) version of IE rendering engine -->
+    <meta name="x-apple-disable-message-reformatting">  <!-- Disable auto-scale in iOS 10 Mail entirely -->
+    <meta name="format-detection" content="telephone=no,address=no,email=no,date=no,url=no"> <!-- Tell iOS not to automatically link certain text strings. -->
     <meta name="color-scheme" content="light">
     <meta name="supported-color-schemes" content="light">
-    <title></title>
+    <title></title> <!-- The title tag shows in email notifications, like Android 4.4. -->
 
+    <!-- What it does: Makes background images in 72ppi Outlook render at correct size. -->
     <!--[if gte mso 9]>
     <xml>
         <o:OfficeDocumentSettings>
@@ -21,16 +22,24 @@
     </xml>
     <![endif]-->
 
+    <!-- Web Font / @font-face : BEGIN -->
+    <!-- NOTE: If web fonts are not required, lines 23 - 41 can be safely removed. -->
+
+    <!-- Desktop Outlook chokes on web font references and defaults to Times New Roman, so we force a safe fallback font. -->
     <!--[if mso]>
         <style>
             * {
-                font-family: 'Century Gothic', sans-serif !important;
+                font-family: sans-serif !important;
             }
         </style>
     <![endif]-->
 
+    <!-- All other clients get the webfont reference; some will render the font and others will silently fail to the fallbacks. More on that here: http://stylecampaign.com/blog/2015/02/webfont-support-in-email/ -->
     <!--[if !mso]><!-->
+    <!-- insert web font reference, eg: <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css"> -->
     <!--<![endif]-->
+
+    <!-- Web Font / @font-face : END -->
 
     <!-- CSS Reset : BEGIN -->
     <style>
@@ -52,6 +61,8 @@ body {
   color: var(--text-color);
 }
 
+        /* What it does: Remove spaces around the email design added by some email clients. */
+        /* Beware: It can remove the padding / margin and add a background color to the compose a reply window. */
         html,
         body {
             margin: 0 auto !important;
@@ -60,25 +71,29 @@ body {
             width: 100% !important;
         }
 
+        /* What it does: Stops email clients resizing small text. */
         * {
             -ms-text-size-adjust: 100%;
             -webkit-text-size-adjust: 100%;
         }
 
+        /* What it does: Centers email on Android 4.4 */
         div[style*="margin: 16px 0"] {
             margin: 0 !important;
         }
-
+        /* What it does: forces Samsung Android mail clients to use the entire viewport */
         #MessageViewBody, #MessageWebViewDiv{
             width: 100% !important;
         }
 
+        /* What it does: Stops Outlook from adding extra spacing to tables. */
         table,
         td {
             mso-table-lspace: 0pt !important;
             mso-table-rspace: 0pt !important;
         }
 
+        /* What it does: Fixes webkit padding issue. */
         table {
             border-spacing: 0 !important;
             border-collapse: collapse !important;
@@ -86,15 +101,18 @@ body {
             margin: 0 auto !important;
         }
 
+        /* What it does: Uses a better rendering method when resizing images in IE. */
         img {
             -ms-interpolation-mode:bicubic;
         }
 
+        /* What it does: Prevents Windows 10 Mail from underlining links despite inline CSS. Styles for underlined links should be inline. */
         a {
             text-decoration: none;
         }
 
-        a[x-apple-data-detectors],
+        /* What it does: A work-around for email clients meddling in triggered links. */
+        a[x-apple-data-detectors],  /* iOS */
         .unstyle-auto-detected-links a,
         .aBn {
             border-bottom: 0 !important;
@@ -107,17 +125,41 @@ body {
             line-height: inherit !important;
         }
 
+        /* What it does: Prevents Gmail from changing the text color in conversation threads. */
         .im {
             color: inherit !important;
         }
 
+        /* What it does: Prevents Gmail from displaying a download button on large, non-linked images. */
         .a6S {
             display: none !important;
             opacity: 0.01 !important;
         }
-
+        /* If the above doesn't work, add a .g-img class to any image in question. */
         img.g-img + div {
             display: none !important;
+        }
+
+        /* What it does: Removes right gutter in Gmail iOS app: https://github.com/TedGoas/Cerberus/issues/89  */
+        /* Create one of these media queries for each additional viewport size you'd like to fix */
+
+        /* iPhone 4, 4S, 5, 5S, 5C, and 5SE */
+        @media only screen and (min-device-width: 320px) and (max-device-width: 374px) {
+            u ~ div .email-container {
+                min-width: 320px !important;
+            }
+        }
+        /* iPhone 6, 6S, 7, 8, and X */
+        @media only screen and (min-device-width: 375px) and (max-device-width: 413px) {
+            u ~ div .email-container {
+                min-width: 375px !important;
+            }
+        }
+        /* iPhone 6+, 7+, and 8+ */
+        @media only screen and (min-device-width: 414px) {
+            u ~ div .email-container {
+                min-width: 414px !important;
+            }
         }
 
         hr {
@@ -127,28 +169,30 @@ body {
             border: 0;
         }
 
+        /* 実線 */
         .hr1 {
-            border-top: 2px solid #555555;
-            margin: 0 auto;}
+            border-top: 2px solid #555555;  
+        }
+
         .hr2 {
             border-top: 2px solid #ce9f54;
-            margin: 0 auto;}
+        }
+
         .hr3 {
-            border-top: 2px dashed #555555;
-            width:85%;
-            margin: 0 auto;}
+            border-top: 2px dashed #555555; width:85%
+        }
+
         .hr4 {
-            border-top: 2px dashed #ce9f54;
-            width:85%;
-            margin: 0 auto;}
+            border-top: 2px dashed #ce9f54; width:85%
+        }
+
         .hr5 {
-            border-top: 2px solid #555555;
-            width:85%;
-            margin: 0 auto;}
+            border-top: 1px solid #555555; width:85%
+        }
+
         .hr6 {
-            border-top: 2px solid #ce9f54;
-            width:85%;
-            margin: 0 auto;}
+            border-top: 1px solid #ce9f54; width:85%
+        }
 
     </style>
     <!-- CSS Reset : END -->
@@ -156,6 +200,7 @@ body {
     <!-- Progressive Enhancements : BEGIN -->
     <style>
 
+	    /* What it does: Hover styles for buttons */
 	    .button-td,
 	    .button-a {
 	        transition: all 100ms ease-in;
@@ -166,8 +211,10 @@ body {
 	        border-color: #555555 !important;
 	    }
 
+	    /* Media Queries */
 	    @media screen and (max-width: 600px) {
 
+	        /* What it does: Forces table cells into full-width rows. */
 	        .stack-column,
 	        .stack-column-center {
 	            display: block !important;
@@ -175,11 +222,12 @@ body {
 	            max-width: 100% !important;
 	            direction: ltr !important;
 	        }
-
+	        /* And center justify these ones. */
 	        .stack-column-center {
 	            text-align: center !important;
 	        }
 
+	        /* What it does: Generic utility class for centering. Useful for images, buttons, and nested tables. */
 	        .center-on-narrow {
 	            text-align: center !important;
 	            display: block !important;
@@ -191,6 +239,7 @@ body {
 	            display: inline-block !important;
 	        }
 
+	        /* What it does: Adjust typography on small screens to improve readability */
 	        .email-container p {
 	            font-size: 18px !important;
 	        }
@@ -200,82 +249,78 @@ body {
     <!-- Progressive Enhancements : END -->
 
 </head>
-
-<body width="100%" style="margin: 0; padding: 0 !important; mso-line-height-rule: exactly; background-color: #542a45;">
+<!--
+	The email background color (#222222) is defined in three places:
+	1. body tag: for most email clients
+	2. center tag: for Gmail and Inbox mobile apps and web versions of Gmail, GSuite, Inbox, Yahoo, AOL, Libero, Comcast, freenet, Mail.ru, Orange.fr
+	3. mso conditional: For Windows 10 Mail
+-->
+<body width="100%" style="margin: 0; padding: 0 !important; mso-line-height-rule: exactly; background-color: #f5f5f5;">
   <center role="article" aria-roledescription="email" lang="en" style="width: 100%; background-color: #542a45;">
+    <!--[if mso | IE]>
+    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #542a45;">
+    <tr>
+    <td>
+    <![endif]-->
 
         <!-- Visually Hidden Preheader Text : BEGIN -->
         <div style="max-height:0; overflow:hidden; mso-hide:all;" aria-hidden="true">
         </div>
         <!-- Visually Hidden Preheader Text : END -->
 
+        <!-- Create white space after the desired preview text so email clients don’t pull other distracting text into the inbox preview. Extend as necessary. -->
         <!-- Preview Text Spacing Hack : BEGIN -->
-        <div style="display: none; font-size: 1px; line-height: 1px; max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden; mso-hide: all; font-family: 'Century Gothic', sans-serif;">
+        <div style="display: none; font-size: 1px; line-height: 1px; max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden; mso-hide: all; font-family: sans-serif;">
 	        &zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;
         </div>
         <!-- Preview Text Spacing Hack : END -->
 
-        <!-- Header : BEGIN -->
-        <div style="max-width: 600px; margin: 0 auto;" class="email-container">
+        <!--
+            Set the email width. Defined in two places:
+            1. max-width for all clients except Desktop Windows Outlook, allowing the email to squish on narrow but never go wider than 600px.
+            2. MSO tags for Desktop Windows Outlook enforce a 680px width.
+            Note: The Fluid and Responsive templates have a different width (600px). The hybrid grid is more "fragile", and I've found that 680px is a good width. Change with caution.
+        -->
+        <div style="max-width: 720px; margin: 0;" class="email-container">
             <!--[if mso]>
-            <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="600">
-            <tr><td>
+            <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="720">
+            <tr>
+            <td>
             <![endif]-->
-            <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="max-width: 600px; background-color: #542a45;">
-                
-                <!-- Browser View Link : BEGIN -->                
-                <tr>
-                    <td style="background-color: #542a45;">
-                        <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
-                            <tr>
-                                <td style="padding: 40px 0 10px; font-family: 'Century Gothic', sans-serif; font-size: 28px; line-height: 20px; color: #ffffff;">
-                                    <a href="https://prune.jp/formail/2609/index.html"><p align="right" style="margin: 0 10px 0; font-size: 14px; color: #ce9f54"><strong>ブラウザで閲覧する</strong></p></a>
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-                <!-- Browser View Link : END -->
 
-            </table>
-            <!--[if mso]>
-            </td></tr>
-            </table>
-            <![endif]-->
-        </div>
-        <!-- Header : END -->
+	        <!-- Email Body : BEGIN -->
+	        <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="max-width: 720px; background-color: #542a45;">
 
-        <!-- Body : BEGIN -->
-        <div style="max-width: 600px; margin: 0 auto; border-radius: 0px; border: 2px solid #542a45; overflow: hidden;" class="email-container">
-            <!--[if mso]>
-            <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="600">
-            <tr><td>
-            <![endif]-->
-            <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="max-width: 600px; background-color: #542a45;">
+		        <!-- Header : BEGIN -->
+                    <tr>
+                        <td style="background-color: #542a45;">
+                            <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                                <tr>
+                                    <td style="padding: 10px 0 10px; font-family: sans-serif; font-size: 28px; line-height: 20px; color: #542a45;">
+                                        <a href="https://yoonryang.github.io/Newsletter/CPB/28_26-27/webview/28_26-27.html"><p align="right" style="margin: 0 0 0; font-size: 14px; color: #ce9f54">ブラウザで閲覧する</p></a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td style="padding: 20px 0 20px; text-align: center">
+                            <img src="https://prune.jp/formail/2302/01.png" width="200" height="" alt="alt_text" border="0" style="height: auto; background: #542a45; font-family: sans-serif; font-size: 15px; line-height: 15px; color: #542a45;">
+                        </td>
+                    </tr>
+		        <!-- Header : END -->
 
-            <!-- Top Section : BEGIN -->
-
-                <!-- logo : BEGIN -->
-                <tr>
-                    <td style="padding: 20px 0 20px; text-align: center; background-color: #542a45;">
-                        <a href="https://www.prune.jp">
-                        <img src="https://yoonryang.github.io/Newsletter/CPB/jpn_gold_rgb_tm.png" alt="California Prune Board Logo" width="200" height="" border="0" style="width: auto; max-width: 200px; height: auto; max-height:200px; background: #542a45;" class="center-on-narrow">
-                        </a>
-                    </td>
-                </tr>
-                <!-- logo : END -->
-
-                <!-- Title + Date + Top Image : BEGIN -->
+	            <!-- Title + Date + Top Image : BEGIN -->
                 <tr>
                     <td style="padding: 20px 0 0; background-color: #ffffff; font-family: sans-serif; text-align: center">
-                        <h1 align="center" style="margin: 10px 0 0; font-size: 28px; line-height: 30px; color: #ce9f54; font-weight: normal;"><strong>カリフォルニアプルーントレードニュース</strong></h1>
+                        <h1 align="center" style="margin: 10px 0 0; font-size: 28px; line-height: 36px; color: #ce9f54; font-weight: normal;"><strong>カリフォルニアプルーントレードニュース</strong></h1>
                         <h1 align="center" style="margin: 8px 0 8px; font-size: 16px; line-height: 22px; color: #333333; font-weight: normal;"><strong>2026年9月号</strong></h1>
-                        <img src="https://prune.jp/formail/2609/tvstations.png" width="540" height="" alt="alt_text" border="0" style="width: 100%; max-width: 540px; height: auto; background: #ffffff; font-family: sans-serif; font-size: 15px; line-height: 15px; color: #555555; margin: auto; display: block;" class="g-img">
+                        <img src="https://prune.jp/formail/2609/tvstations.png" width="540" height="" alt="alt_text" border="0" style="width: 100%; max-width: 540px; height: auto; background: #dddddd; font-family: sans-serif; font-size: 15px; line-height: 15px; color: #555555; margin: auto; display: block;" class="g-img">
                     </td>
                 </tr>
                 <!-- Title + Date + Top Image : END -->
-
-                <!-- Top Text : BEGIN -->
+                <!-- Header : BEGIN -->
                 <tr>
                     <td style="background-color: #ffffff;">
                         <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
@@ -292,29 +337,25 @@ body {
                         </table>
                     </td>
                 </tr>
-                <!-- Top Text : END -->
+                <!-- Header : END -->
 
-            <!-- Top Section : END -->
+                        <!-- Line : Begin -->
+                        <tr>
+                            <td style="background-color: #ffffff;">
+                                <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="90%">
+                                    <tr>
+                                        <td align="center" valign="center" style="font-size:0; padding: 10px 0 20px; background-color: #ffffff;">
+                                            <hr class="hr1">
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <!-- Line : END -->
 
-                    <!-- Line : Begin -->
-                    <tr>
-                        <td style="background-color: #ffffff;">
-                            <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="90%">
-                                <tr>
-                                    <td align="center" valign="center" style="font-size:0; padding: 20px 0 20px ; background-color: #ffffff;">
-                                        <hr class="hr1">
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <!-- Line : END -->
-            
-            <!-- Main Section : BEGIN -->
+                <!-- 1st : BEGIN -->
 
-               <!-- 1st : BEGIN -->
-
-                    <!-- 2 Images : BEGIN -->
+<!-- 2 Images : BEGIN -->
                     <tr>
                     <td align="center" valign="center" style="font-size:0; padding:0 0 0; background-color: #ffffff;">
                         <!--[if mso]>
@@ -329,7 +370,7 @@ body {
                                         <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="font-size: 14px; text-align: left;">
                                             <tr>
                                                 <td>
-                                                    <img src="https://prune.jp/formail/2609/spot.png" width="260" height="" border="0" alt="alt_text" style="width: 100%; max-width: 260px; height: auto; background: #ffffff; font-family: sans-serif; font-size: 15px; line-height: 20px; color: #555555;" class="center-on-narrow">
+                                                    <img src="https://prune.jp/formail/2609/spot.png" width="260" height="" border="0" alt="alt_text" style="width: 100%; max-width: 260px; height: auto; background: #dddddd; font-family: system-ui; font-size: 15px; line-height: 20px; color: #555555;" class="center-on-narrow">
                                                 </td>
                                             </tr>
                                         </table>
@@ -348,7 +389,7 @@ body {
                                         <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="font-size: 14px;text-align: left;">
                                             <tr>
                                                 <td>
-                                                    <img src="https://prune.jp/formail/2609/freepub.png" width="260" height="" border="0" alt="alt_text" style="width: 100%; max-width: 260px; height: auto; background: #ffffff; font-family: sans-serif; font-size: 15px; line-height: 20px; color: #555555;" class="center-on-narrow">
+                                                    <img src="https://prune.jp/formail/2609/freepub.png" width="260" height="" border="0" alt="alt_text" style="width: 100%; max-width: 260px; height: auto; background: #dddddd; font-family: system-ui; font-size: 15px; line-height: 20px; color: #555555;" class="center-on-narrow">
                                                 </td>
                                             </tr>
                                         </table>
@@ -370,9 +411,9 @@ body {
                     <td style="background-color: #ffffff;">
                         <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
                             <tr>
-                                <td style="padding: 10px 30px 0; font-family: sans-serif; font-size: 20px; line-height: 28px; color: #333333;">
+                                <td style="padding: 20px 30px 0; font-family: sans-serif; font-size: 20px; line-height: 28px; color: #333333;">
                                     <hl align="justify" style="margin: 8px 0 8px; font-size: 20px; line-height: 28px; color: #333333; font-weight: normal;"><strong>2026年秋のテレビCM&フリーパブリシティ放送スケジュールはコチラからチェック!</strong></hl>
-                                        <p align="justify" style="margin: 8px 0 8px; font-size: 16px; line-height: 24px; color: #333333;">日本全国の食品流通現場との連動を更に効果的にはかり、店頭プロモーションのための時間を最大限確保するため、テレビCM放送キャンペーン実施期間は2026年10月1日から11月30日までの8週間に延長となりました。</p>
+                                        <p align="justify" style="margin: 8px 0 8px; font-size: 16px; line-height: 24px; color: #333333;">日本全国の食品流通現場との連動を更に効果的にはかり、店頭プロモーションのための時間を最大限確保するため、テレビCM放送キャンペーン実施期間は 2026年10月1日から11月30日までの8週間に延長となりました。</p>
 
                                             <!-- Bullet Point : BEGIN -->
                                             <ul align="justify" style="padding-left: 24px; margin: 8px 0 8px; font-size: 16px; line-height: 24px; color: #333333;">
@@ -383,7 +424,7 @@ body {
                                             </ul>
                                             <!-- Bullet Point : END -->
 
-                                        <p align="justify" style="margin: 8px 0 8px; font-size: 16px; line-height: 24px; color: #333333;"><strong>以下のリンク先ダウンロードページからスケジュール表をご取得いただけます。ダウンロードページへのアクセスには<font color="#542a45">パスワード: CAprunes</font>が必要となります。</strong></p>
+                                        <p align="justify" style="margin: 8px 0 8px; font-size: 16px; line-height: 24px; color: #333333;"><strong>以下のリンク先ダウンロードページからスケジュール表をご取得いただけます。ダウンロードページへのアクセスにはパスワード: <font color="#542a45">CAprunes</font> が必要となります。</strong></p>
                                         <p align="justify" style="margin: 4px 0 8px; font-size: 12px; line-height: 20px; color: #333333;"><i>*現在10月のCM放送スケジュールを公開中、11月の放送スケジュールは確定次第アップデート予定。</i></p>
 
                                             <!-- Button : BEGIN -->
@@ -406,29 +447,29 @@ body {
                         </td>
                     </tr>
                     <!-- Top Text : END -->
-
+ 
                 <!-- 1st : End -->
 
-                    <!-- Line : Begin -->
-                    <tr>
-                        <td style="background-color: #ffffff;">
-                            <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="90%">
-                                <tr>
-                                    <td align="center" valign="center" style="font-size:0; padding: 20px 0 20px ; background-color: #ffffff;">
-                                        <hr class="hr1">
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <!-- Line : END -->
+                        <!-- Line : Begin -->
+                        <tr>
+                            <td style="background-color: #ffffff;">
+                                <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="90%">
+                                    <tr>
+                                        <td align="center" valign="center" style="font-size:0; padding: 10px 0 20px; background-color: #ffffff;">
+                                            <hr class="hr1">
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <!-- Line : END -->
 
                 <!-- 2nd : BEGIN -->
 
                     <!-- Top Image: BEGIN -->
                     <tr>
                         <td style="padding: 0 0 0; background-color: #ffffff; font-family: sans-serif; text-align: center">
-                            <img src="https://www.prune.jp/formail/2509/new_pukatsu-digital.png" width="540" height="" alt="alt_text" border="0" style="width: 100%; max-width: 540px; height: auto; background: #ffffff; font-family: sans-serif; font-size: 15px; line-height: 15px; color: #555555; margin: auto; padding: 0 0 0; display: block;" class="g-img">
+                            <img src="https://www.prune.jp/formail/2509/new_pukatsu-digital.png" width="540" height="" alt="alt_text" border="0" style="width: 100%; max-width: 540px; height: auto; background: #dddddd; font-family: sans-serif; font-size: 15px; line-height: 15px; color: #555555; margin: auto; padding: 0 0 0; display: block;" class="g-img">
                         </td>
                     </tr>
                     <!-- Top Image: END -->
@@ -439,7 +480,7 @@ body {
                         <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
                             <tr>
                                 <td style="padding: 10px 30px 0; font-family: sans-serif; font-size: 20px; line-height: 28px; color: #333333;">
-                                    <hl align="justify" style="margin: 8px 0 8px; font-size: 20px; line-height: 28px; color: #333333; font-weight: normal;"><strong>2026年秋のデジタルキャンペーンはテレビCM放映に合わせ11月末まで展開予定!</strong></hl>
+                                    <hl align="justify" style="margin: 8px 0 8px; font-size: 20px; line-height: 28px; color: #333333; font-weight: normal;"><strong>2026年秋のデジタルキャンペーンはテレビCM放映に合わせ11月末まで展開予定</strong></hl>
                                         <p align="justify" style="margin: 8px 0 8px; font-size: 16px; line-height: 22px; color: #333333;">テレビCMキャンペーンが既存ユーザーへのリーチを重視する一方、デジタルキャンペーンでは新しい消費者層である若年層にリーチし、未来のカリフォルニアプルーン需要構築を目的としています。 </p>
                                         <p align="justify" style="margin: 8px 0 8px; font-size: 16px; line-height: 22px; color: #333333;">TVCM放送に付随してGoogle、Yahoo、Amazon、楽天、Taboola、Teads、Instagram、YouTube、そしてTVer上でデジタルキャンペーンを展開し、引き続き若年層ターゲットへの訴求を強化、7500万インプレッションの追加達成を予定しています。</p>
                                     </td>
@@ -451,40 +492,40 @@ body {
 
                 <!-- 2nd : End -->
 
-                    <!-- Line : Begin -->
-                    <tr>
-                        <td style="background-color: #ffffff;">
-                            <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="90%">
-                                <tr>
-                                    <td align="center" valign="center" style="font-size:0; padding: 20px 0 20px ; background-color: #ffffff;">
-                                        <hr class="hr1">
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <!-- Line : END -->
+                        <!-- Line : Begin -->
+                        <tr>
+                            <td style="background-color: #ffffff;">
+                                <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="90%">
+                                    <tr>
+                                        <td align="center" valign="center" style="font-size:0; padding: 10px 0 20px ; background-color: #ffffff;">
+                                            <hr class="hr1">
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <!-- Line : END -->
 
                 <!-- 3rd : BEGIN -->
 
                     <!-- Top Image: BEGIN -->
                     <tr>
                         <td style="padding: 0 0 0; background-color: #ffffff; font-family: sans-serif; text-align: center">
-                            <img src="https://prune.jp/formail/2603/CPB_POP2026_Banner.png" width="540" height="" alt="alt_text" border="0" style="width: 100%; max-width: 540px; height: auto; background: #ffffff; font-family: sans-serif; font-size: 15px; line-height: 15px; color: #555555; margin: auto; padding: 0 0 0; display: block;" class="g-img">
+                            <img src="https://prune.jp/formail/2603/CPB_POP2026_Banner.png" width="540" height="" alt="alt_text" border="0" style="width: 100%; max-width: 540px; height: auto; background: #dddddd; font-family: sans-serif; font-size: 15px; line-height: 15px; color: #555555; margin: auto; padding: 0 0 0; display: block;" class="g-img">
                         </td>
                     </tr>
                     <!-- Top Image: END -->
 
-                    <!-- Top Text : BEGIN -->
+                <!-- Top Text : BEGIN -->
                     <tr>
                         <td style="background-color: #ffffff;">
                             <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
                                 <tr>
                                     <td style="padding: 10px 30px 0; font-family: sans-serif; font-size: 20px; line-height: 28px; color: #333333;">
                                     <hl align="justify" style="margin: 8px 0 8px; font-size: 20px; line-height: 28px; color: #333333; font-weight: normal;"><strong>新「プ活はじめよう」店頭POPデザインデータ好評配信中</strong></hl>
-                                        <p align="justify" style="margin: 8px 0 8px; font-size: 16px; line-height: 22px; color: #333333;">日々多様化する日本の食のシーン、消費トレンドに対応し、より多くの消費者へのカリフォルニアプルーンを訴求するべく、また食品流通業界エキスパートの皆様による多くの消費者へのリーチを後押しするため、カリフォルニアプルーン協会は50種類以上のPOPデザインデータを以下のページで配信しております。ボリュームアップしたデザインバリエーションを活用し、今年春のプ活テレビCM放送と一緒にカリフォルニアプルーンの輪を広げていきましょう。</p>
-                                        <p align="justify" style="margin: 8px 0 8px; font-size: 16px; line-height: 22px; color: #333333;"><strong><font color="#542a45">パスワード: CAprunes</font>を入力して、下記リンクより今すぐダウンロード</strong></p>
-                                        <p align="justify" style="margin: 8px 0 8px; font-size: 16px; line-height: 22px; color: #333333;">販促ツールに関するご質問·ご要望などがございましたら、お気軽にお問い合わせください。</p>
+                                        <p align="justify" style="margin: 8px 0 8px; font-size: 16px; line-height: 22px; color: #333333;">日々多様化する日本の食のシーン、消費トレンドに対応し、より多くの消費者へのカリフォルニアプルーンを訴求するべく、また食品流通業界エキスパートの皆様がより多くの消費者へのリーチを後押しするため、カリフォルニアプルーン協会は50種類以上のPOPデザインデータを以下のページで配信しております。ボリュームアップしたデザインバリエーションを活用して、今年秋のプ活テレビCM放送と一緒にカリフォルニアプルーンの輪を広げていきましょう。</p>
+                                        <p align="justify" style="margin: 8px 0 8px; font-size: 16px; line-height: 22px; color: #333333;"><strong>パスワード: <font color="#542a45">CAprunes </font>を入力して、下記リンクよりダウンロードページに今すぐアクセス</strong></p>
+                                        <p align="justify" style="margin: 8px 0 8px; font-size: 16px; line-height: 22px; color: #333333;">販促ツールに関するご質問・ご要望などがございましたら、お気軽にお問い合わせください。</p>
 
                                             <!-- Button : BEGIN -->
                                             <ul style="padding: 0; margin: 0; list-style-type: disc;">
@@ -499,59 +540,67 @@ body {
                                                 </table>
                                             </ul>
                                             <!-- Button : END -->
-                                                
+                                            
                                     </td>
                                 </tr>
                             </table>
                         </td>
                     </tr>
                     <!-- Top Text : END -->
-
+                
                 <!-- 3rd : End -->
 
-                    <!-- Line : Begin -->
-                    <tr>
-                        <td style="background-color: #ffffff;">
-                            <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="90%">
-                                <tr>
-                                    <td align="center" valign="center" style="font-size:0; padding: 20px 0 20px ; background-color: #ffffff;">
-                                        <hr class="hr1">
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <!-- Line : END -->
+
+                <!-- 4th : BEGIN -->
+                <!-- 4th : End -->
+
+                        <!-- Line : Begin -->
+                        <tr>
+                            <td style="background-color: #ffffff;">
+                                <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="90%">
+                                    <tr>
+                                        <td align="center" valign="center" style="font-size:0; padding: 10px 0 20px ; background-color: #ffffff;">
+                                            <hr class="hr1">
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <!-- Line : END -->
 
                 <!-- Greeting : BEGIN -->
-                <tr>
-                    <td style="background-color: #ffffff;">
-                        <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
-                            <tr>
-                                <td style="padding: 0 30px 0; font-family: sans-serif; font-size: 20px; line-height: 28px; color: #333333;">
-                                    <hl align="justify" style="margin: 8px 0 8px; font-size: 20px; line-height: 28px; color: #333333; font-weight: normal;"><strong>「プ活、はじめよう。」の輪を日本全国の売り場にさらに広げてまいりましょう!</strong></hl>
-                                    <p align="justify" style="margin: 8px 0 8px; font-size: 16px; line-height: 22px; color: #333333;">まもなく開始される春の「プ活、はじめよう。」キャンペーンへの温かいご支援、積極的なご活用をお願いいたします。</p>
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr> 
-                <!-- Greeting : End -->
 
-                    <!-- Line : Begin -->
+                    <!-- Top Text : BEGIN -->
                     <tr>
                         <td style="background-color: #ffffff;">
-                            <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="90%">
+                            <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
                                 <tr>
-                                    <td align="center" valign="center" style="font-size:0; padding: 20px 0 20px ; background-color: #ffffff;">
-                                        <hr class="hr1">
+                                    <td style="padding: 0 30px 0; font-family: sans-serif; font-size: 20px; line-height: 28px; color: #333333;">
+                                        <hl align="justify" style="margin: 8px 0 8px; font-size: 20px; line-height: 28px; color: #333333; font-weight: normal;"><strong>「プ活、はじめよう。」の輪を日本全国の売り場にさらに広げてまいりましょう!</strong></hl>
+                                        <p align="justify" style="margin: 8px 0 8px; font-size: 16px; line-height: 22px; color: #333333;">まもなく開始される秋の「プ活、はじめよう。」キャンペーンへの温かいご支援、積極的なご活用をお願いいたします。</p>
                                     </td>
                                 </tr>
                             </table>
                         </td>
                     </tr>
-                    <!-- Line : END -->
+                    <!-- Top Text  : END -->
      
+                <!-- Greeting : End -->
+
+                        <!-- Line : Begin -->
+                        <tr>
+                            <td style="background-color: #ffffff;">
+                                <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="90%">
+                                    <tr>
+                                        <td align="center" valign="center" style="font-size:0; padding: 10px 0 20px ; background-color: #ffffff;">
+                                            <hr class="hr1">
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <!-- Line : END -->
+
                 <!-- Message : BEGIN -->
                     <tr>
                         <td style="background-color: #f3f3f3;">
@@ -582,19 +631,15 @@ body {
                     </tr>
                 <!-- Message : END -->
 
-            <!-- Main Section : END -->
+            <!-- Email Footer : BEGIN -->
 
-            <!-- Bottom Section : BEGIN -->
-
-                <!-- Brand Logo : BEGIN -->
+                <!-- CPB Logo : BEGIN -->
                 <tr>
-                    <td style="padding: 20px 0 20px; text-align: center; background-color: #542a45;">
-                        <a href="https://www.prune.jp">
-                        <img src="https://yoonryang.github.io/Newsletter/CPB/jpn_gold_rgb_tm.png" alt="California Prune Board Logo" width="" height="" border="0" style="width: auto; max-width: 200px; height: auto; max-height:200px; background: #542a45;" class="center-on-narrow">
-                        </a>
-                    </td>
-                </tr>
-                <!-- Brand Logo : END -->
+	                <td style="padding: 20px 0 20px; text-align: center">
+	                    <img src="https://prune.jp/formail/2302/01.png" width="200" height="" alt="alt_text" border="0" style="height: auto; background: #542a45; font-family: sans-serif; font-size: 15px; line-height: 15px; color: #542a45;">
+	                </td>
+	            </tr>
+                <!-- CPB Logo : END -->
 
                 <!-- Footer Copy : BEGIN -->
                 <tr>
@@ -611,66 +656,139 @@ body {
                 <!-- Footer Copy : END -->
 
                 <!-- SNS Icons : BEGIN -->
-                <tr>
-                    <td align="center" style="padding: 20px 0 20px; background-color: #542a45;">
-                        <table role="presentation" cellspacing="0" cellpadding="0" border="0">
+                    <tr>
+                        <td align="center" valign="top" style="font-size:0; padding: 20px 0 20px ; background-color: #542a45;">
+                            <!--[if mso]>
+                            <table role="presentation" border="0" cellspacing="0" cellpadding="0" width="600">
                             <tr>
-                                <td style="padding: 0 20px;">
-                                    <a href="https://twitter.com/prune_fan">
-                                    <img src="https://prune.jp/formail/X_CPB_Gold.png" width="48" height="" alt="LinkedIn" border="0" style="display:block;">
-                                    </a>
-                                </td>
-                                <td style="padding: 0 20px;">
-                                    <a href="https://www.instagram.com/californiaprunejp">
-                                    <img src="https://prune.jp/formail/Instagram_CPB_Gold.png" width="48" height="" alt="LinkedIn" border="0" style="display:block;">
-                                    </a>
-                                </td>
-                                <td style="padding: 0 20px;">
-                                    <a href="https://www.facebook.com/prunefan">
-                                    <img src="https://prune.jp/formail/Facebook_CPB_Gold.png" width="48" height="" alt="LinkedIn" border="0" style="display:block;">
-                                    </a>
-                                </td>
-                                <td style="padding: 0 20px;">
-                                    <a href="https://youtube.com/@JPcaliforniaprune?si=in1td2wAkYcCwaLr">
-                                    <img src="https://prune.jp/formail/YouTube_CPB_Gold.png" width="48" height="" alt="LinkedIn" border="0" style="display:block;">
-                                    </a>
-                                </td>
-                                <td style="padding: 0 20px;">
-                                    <a href="https://www.linkedin.com/company/caprunesjp/">
-                                    <img src="https://prune.jp/formail/LinkedIn_CPB_Gold.png" width="48" height="" alt="LinkedIn" border="0" style="display:block;">
-                                    </a>
-                                </td>
+                            <td valign="top" width="120">
+                            <![endif]-->
+                            <div style="display:inline-block; margin: 0 ; max-width: 17%; vertical-align:top; width:100%;">
+                                <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                                    <tr>
+                                        <td style="padding: 0;">
+                                            <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="font-size: 14px;text-align: center;">
+                                                <tr>
+                                                    <td>
+                                                        <a href="https://twitter.com/prune_fan"><img src="https://prune.jp/formail/X_CPB_Gold.png" width="48" height="" border="0" alt="alt_text" style="width: 100%; max-width: 48px; height: auto; background: #542a45; font-family: sans-serif; font-size: 14px; line-height: 20px; color: #555555;" class="center-on-narrow">
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <!--[if mso]>
+                            </td>
+
+                            <td valign="top" width="120">
+                            <![endif]-->
+                            <div style="display:inline-block; margin: 0 ; max-width: 17%; vertical-align:top; width:100%;">
+                                <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                                    <tr>
+                                        <td style="padding: 0;">
+                                            <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="font-size: 14px;text-align: center;">
+                                                <tr>
+                                                    <td>
+                                                        <a href="https://www.instagram.com/californiaprunejp/"><img src="https://prune.jp/formail/Instagram_CPB_Gold.png" width="48" height"" border="0" alt="alt_text" style="width: 100%; max-width: 48px; height: auto; background: #542a45; font-family: sans-serif; font-size: 14px; line-height: 20px; color: #555555;" class="center-on-narrow">
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <!--[if mso]>
+                            </td>
+
+                            <td valign="top" width="120">
+                            <![endif]-->
+                            <div style="display:inline-block; margin: 0 ; max-width: 17%; vertical-align:top; width:100%;">
+                                <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                                    <tr>
+                                        <td style="padding: 0;">
+                                            <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="font-size: 14px;text-align: center;">
+                                                <tr>
+                                                    <td>
+                                                        <a href="https://www.facebook.com/prunefan/"><img src="https://prune.jp/formail/Facebook_CPB_Gold.png" width="48" height="" border="0" alt="alt_text" style="width: 100%; max-width: 48px; height: auto; background: #542a45; font-family: sans-serif; font-size: 14px; line-height: 20px; color: #555555;" class="center-on-narrow">
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <!--[if mso]>
+                            </td>
+
+                            <td valign="top" width="120">
+                            <![endif]-->
+                            <div style="display:inline-block; margin: 0 ; max-width: 17%; vertical-align:top; width:100%;">
+                                <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                                    <tr>
+                                        <td style="padding: 0;">
+                                            <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="font-size: 14px;text-align: center;">
+                                                <tr>
+                                                    <td>
+                                                        <a href="https://youtube.com/@JPcaliforniaprune?si=in1td2wAkYcCwaLr"><img src="https://prune.jp/formail/YouTube_CPB_Gold.png" width="48" height="" border="0" alt="alt_text" style="width: 100%; max-width: 48px; height: auto; background: #542a45; font-family: sans-serif; font-size: 14px; line-height: 20px; color: #555555;" class="center-on-narrow">
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <!--[if mso]>
+                            </td>
+
+                            <td valign="top" width="120">
+                            <![endif]-->
+                            <div style="display:inline-block; margin: 0 ; max-width: 17%; vertical-align:top; width:100%;">
+                                <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                                    <tr>
+                                        <td style="padding: 0;">
+                                            <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="font-size: 14px;text-align: center;">
+                                                <tr>
+                                                    <td>
+                                                        <a href="https://www.linkedin.com/company/caprunesjp/"><img src="https://prune.jp/formail/LinkedIn_CPB_Gold.png" width="48" height="" border="0" alt="alt_text" style="width: 100%; max-width: 48px; height: auto; background: #542a45; font-family: sans-serif; font-size: 14px; line-height: 20px; color: #555555;" class="center-on-narrow">
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <!--[if mso]>
+                            </td>
                             </tr>
-                        </table>
-                    </td>
-                </tr>
+                            </table>
+                            <![endif]-->
+                        </td>
+                    </tr>
                 <!-- SNS Icons : END -->
+            
+            <!-- Email Footer : END -->
 
-            <!-- Bottom Section : END -->
             </table>
+            <!-- Email Body : END -->
+
             <!--[if mso]>
-            </td></tr>
+            </td>
+            </tr>
             </table>
             <![endif]-->
-        </div>
-        <!-- Body : END -->
 
-        <!-- Footer : BEGIN -->
-        <div style="max-width: 600px; margin: 0 auto;" class="email-container">
-            <!--[if mso]>
-            <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="600">
-            <tr><td>
-            <![endif]-->
-            <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="max-width: 600px; background-color: #3c3b6e;">
-                
-            </table>
-            <!--[if mso]>
-            </td></tr>
-            </table>
-            <![endif]-->
-        </div>
-        <!-- Footer : END -->
-
+    <!--[if mso | IE]>
+    </div>
+    </td>
+    </tr>
+    </table>
+    <![endif]-->
 </center>
 </body>
 </html>

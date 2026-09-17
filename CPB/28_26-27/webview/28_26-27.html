@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
 
@@ -195,6 +196,68 @@ body {
 	        }
 	    }
 
+        /* Outlook (new/Outlook.com) dark mode override */
+        [data-ogsc] {
+            color: inherit !important;
+        }
+
+        [data-ogsb] {
+            background-color: inherit !important;
+        }
+
+        /* ボタン */
+        [data-ogsc] .button-a-primary,
+        [data-ogsc] .button-a-primary:link,
+        [data-ogsc] .button-a-primary:visited {
+            color: #ce9f54 !important;
+        }
+        [data-ogsb] .button-a-primary,
+        [data-ogsb] .button-a-primary:link,
+        [data-ogsb] .button-a-primary:visited {
+            background-color: #542a45 !important;
+            border-color: #542a45 !important;
+        }
+        [data-ogsb] .button-td-primary {
+            background-color: #542a45 !important;
+        }
+
+        /* 背景色の上書き(紫・白・グレーの3種類すべて) */
+        [data-ogsb] td[style*="background-color: #542a45"],
+        [data-ogsb] table[style*="background-color: #542a45"] {
+            background-color: #542a45 !important;
+        }
+        [data-ogsb] td[style*="background-color: #ffffff"],
+        [data-ogsb] table[style*="background-color: #ffffff"] {
+            background-color: #ffffff !important;
+        }
+        [data-ogsb] td[style*="background-color: #f3f3f3"],
+        [data-ogsb] table[style*="background-color: #f3f3f3"] {
+            background-color: #f3f3f3 !important;
+        }
+
+        /* 文字色の上書き(本文・キャプション・見出し・リンクなど) */
+        [data-ogsc] h1[style*="color: #ce9f54"],
+        [data-ogsc] strong[style*="color: #ce9f54"],
+        [data-ogsc] a[style*="color: #ce9f54"] {
+            color: #ce9f54 !important;
+        }
+        [data-ogsc] p[style*="color: #333333"],
+        [data-ogsc] h1[style*="color: #333333"],
+        [data-ogsc] td[style*="color: #333333"],
+        [data-ogsc] li {
+            color: #333333 !important;
+        }
+        [data-ogsc] p[style*="color: #555555"],
+        [data-ogsc] td[style*="color: #555555"] {
+            color: #555555 !important;
+        }
+        [data-ogsc] td[style*="color: #ffffff"] {
+            color: #ffffff !important;
+        }
+        [data-ogsc] font[color="#542a45"] {
+            color: #542a45 !important;
+        }
+
     </style>
     <!-- Progressive Enhancements : END -->
 
@@ -258,7 +321,7 @@ body {
                 <tr>
                     <td style="padding: 20px 0 20px; text-align: center; background-color: #542a45;">
                         <a href="https://www.prune.jp">
-                        <img src="https://yoonryang.github.io/Newsletter/CPB/jpn_gold_rgb_tm.png" alt="California Prune Board Logo" width="" height="" border="0" style="width: auto; max-width: 200px; height: auto; max-height:200px; background: #542a45;" class="center-on-narrow">
+                        <img src="https://yoonryang.github.io/Newsletter/CPB/jpn_gold_rgb_tm.png" alt="California Prune Board Logo" width="200" height="" border="0" style="width: auto; max-width: 200px; height: auto; max-height:200px; background: #542a45;" class="center-on-narrow">
                         </a>
                     </td>
                 </tr>

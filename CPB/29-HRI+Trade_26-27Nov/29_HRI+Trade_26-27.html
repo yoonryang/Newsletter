@@ -1,0 +1,831 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+
+<head>
+    <meta charset="utf-8"> <!-- utf-8 works for most cases -->
+    <meta name="viewport" content="width=device-width"> <!-- Forcing initial-scale shouldn't be necessary -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- Use the latest (edge) version of IE rendering engine -->
+    <meta name="x-apple-disable-message-reformatting">  <!-- Disable auto-scale in iOS 10 Mail entirely -->
+    <meta name="format-detection" content="telephone=no,address=no,email=no,date=no,url=no"> <!-- Tell iOS not to automatically link certain text strings. -->
+    <meta name="color-scheme" content="light">
+    <meta name="supported-color-schemes" content="light">
+    <title></title> <!-- The title tag shows in email notifications, like Android 4.4. -->
+
+    <!-- What it does: Makes background images in 72ppi Outlook render at correct size. -->
+    <!--[if gte mso 9]>
+    <xml>
+        <o:OfficeDocumentSettings>
+            <o:AllowPNG/>
+            <o:PixelsPerInch>96</o:PixelsPerInch>
+        </o:OfficeDocumentSettings>
+    </xml>
+    <![endif]-->
+
+    <!-- Web Font / @font-face : BEGIN -->
+    <!-- NOTE: If web fonts are not required, lines 23 - 41 can be safely removed. -->
+
+    <!-- Desktop Outlook chokes on web font references and defaults to Times New Roman, so we force a safe fallback font. -->
+    <!--[if mso]>
+        <style>
+            * {
+                font-family: sans-serif !important;
+            }
+        </style>
+    <![endif]-->
+
+    <!-- All other clients get the webfont reference; some will render the font and others will silently fail to the fallbacks. More on that here: http://stylecampaign.com/blog/2015/02/webfont-support-in-email/ -->
+    <!--[if !mso]><!-->
+    <!-- insert web font reference, eg: <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css"> -->
+    <!--<![endif]-->
+
+    <!-- Web Font / @font-face : END -->
+
+    <!-- CSS Reset : BEGIN -->
+    <style>
+
+:root {
+  --bg-color: #542a45;
+  --text-color: black;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-color: #542a45;
+    --text-color: black;
+  }
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+        /* What it does: Remove spaces around the email design added by some email clients. */
+        /* Beware: It can remove the padding / margin and add a background color to the compose a reply window. */
+        html,
+        body {
+            margin: 0 auto !important;
+            padding: 0 !important;
+            height: 100% !important;
+            width: 100% !important;
+        }
+
+        /* What it does: Stops email clients resizing small text. */
+        * {
+            -ms-text-size-adjust: 100%;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        /* What it does: Centers email on Android 4.4 */
+        div[style*="margin: 16px 0"] {
+            margin: 0 !important;
+        }
+        /* What it does: forces Samsung Android mail clients to use the entire viewport */
+        #MessageViewBody, #MessageWebViewDiv{
+            width: 100% !important;
+        }
+
+        /* What it does: Stops Outlook from adding extra spacing to tables. */
+        table,
+        td {
+            mso-table-lspace: 0pt !important;
+            mso-table-rspace: 0pt !important;
+        }
+
+        /* What it does: Fixes webkit padding issue. */
+        table {
+            border-spacing: 0 !important;
+            border-collapse: collapse !important;
+            table-layout: fixed !important;
+            margin: 0 auto !important;
+        }
+
+        /* What it does: Uses a better rendering method when resizing images in IE. */
+        img {
+            -ms-interpolation-mode:bicubic;
+        }
+
+        /* What it does: Prevents Windows 10 Mail from underlining links despite inline CSS. Styles for underlined links should be inline. */
+        a {
+            text-decoration: none;
+        }
+
+        /* What it does: A work-around for email clients meddling in triggered links. */
+        a[x-apple-data-detectors],  /* iOS */
+        .unstyle-auto-detected-links a,
+        .aBn {
+            border-bottom: 0 !important;
+            cursor: default !important;
+            color: inherit !important;
+            text-decoration: none !important;
+            font-size: inherit !important;
+            font-family: inherit !important;
+            font-weight: inherit !important;
+            line-height: inherit !important;
+        }
+
+        /* What it does: Prevents Gmail from changing the text color in conversation threads. */
+        .im {
+            color: inherit !important;
+        }
+
+        /* What it does: Prevents Gmail from displaying a download button on large, non-linked images. */
+        .a6S {
+            display: none !important;
+            opacity: 0.01 !important;
+        }
+        /* If the above doesn't work, add a .g-img class to any image in question. */
+        img.g-img + div {
+            display: none !important;
+        }
+
+        /* What it does: Removes right gutter in Gmail iOS app: https://github.com/TedGoas/Cerberus/issues/89  */
+        /* Create one of these media queries for each additional viewport size you'd like to fix */
+
+        /* iPhone 4, 4S, 5, 5S, 5C, and 5SE */
+        @media only screen and (min-device-width: 320px) and (max-device-width: 374px) {
+            u ~ div .email-container {
+                min-width: 320px !important;
+            }
+        }
+        /* iPhone 6, 6S, 7, 8, and X */
+        @media only screen and (min-device-width: 375px) and (max-device-width: 413px) {
+            u ~ div .email-container {
+                min-width: 375px !important;
+            }
+        }
+        /* iPhone 6+, 7+, and 8+ */
+        @media only screen and (min-device-width: 414px) {
+            u ~ div .email-container {
+                min-width: 414px !important;
+            }
+        }
+
+        hr {
+            height: 0;
+            margin: 0;
+            padding: 0;
+            border: 0;
+        }
+
+        /* 実線 */
+        .hr1 {
+            border-top: 2px solid #555555;  
+        }
+
+        .hr2 {
+            border-top: 2px solid #ce9f54;
+        }
+
+        .hr3 {
+            border-top: 2px dashed #555555; width:85%
+        }
+
+        .hr4 {
+            border-top: 2px dashed #ce9f54; width:85%
+        }
+
+        .hr5 {
+            border-top: 1px solid #555555; width:85%
+        }
+
+        .hr6 {
+            border-top: 1px solid #ce9f54; width:85%
+        }
+
+    </style>
+    <!-- CSS Reset : END -->
+
+    <!-- Progressive Enhancements : BEGIN -->
+    <style>
+
+	    /* What it does: Hover styles for buttons */
+	    .button-td,
+	    .button-a {
+	        transition: all 100ms ease-in;
+	    }
+	    .button-td-primary:hover,
+	    .button-a-primary:hover {
+	        background: #555555 !important;
+	        border-color: #555555 !important;
+	    }
+
+	    /* Media Queries */
+	    @media screen and (max-width: 600px) {
+
+	        /* What it does: Forces table cells into full-width rows. */
+	        .stack-column,
+	        .stack-column-center {
+	            display: block !important;
+	            width: 100% !important;
+	            max-width: 100% !important;
+	            direction: ltr !important;
+	        }
+	        /* And center justify these ones. */
+	        .stack-column-center {
+	            text-align: center !important;
+	        }
+
+	        /* What it does: Generic utility class for centering. Useful for images, buttons, and nested tables. */
+	        .center-on-narrow {
+	            text-align: center !important;
+	            display: block !important;
+	            margin-left: auto !important;
+	            margin-right: auto !important;
+	            float: none !important;
+	        }
+	        table.center-on-narrow {
+	            display: inline-block !important;
+	        }
+
+	        /* What it does: Adjust typography on small screens to improve readability */
+	        .email-container p {
+	            font-size: 18px !important;
+	        }
+	    }
+
+    </style>
+    <!-- Progressive Enhancements : END -->
+
+</head>
+<!--
+	The email background color (#222222) is defined in three places:
+	1. body tag: for most email clients
+	2. center tag: for Gmail and Inbox mobile apps and web versions of Gmail, GSuite, Inbox, Yahoo, AOL, Libero, Comcast, freenet, Mail.ru, Orange.fr
+	3. mso conditional: For Windows 10 Mail
+-->
+<body width="100%" style="margin: 0; padding: 0 !important; mso-line-height-rule: exactly; background-color: #f5f5f5;">
+  <center role="article" aria-roledescription="email" lang="en" style="width: 100%; background-color: #542a45;">
+    <!--[if mso | IE]>
+    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #542a45;">
+    <tr>
+    <td>
+    <![endif]-->
+
+        <!-- Visually Hidden Preheader Text : BEGIN -->
+        <div style="max-height:0; overflow:hidden; mso-hide:all;" aria-hidden="true">
+        </div>
+        <!-- Visually Hidden Preheader Text : END -->
+
+        <!-- Create white space after the desired preview text so email clients don’t pull other distracting text into the inbox preview. Extend as necessary. -->
+        <!-- Preview Text Spacing Hack : BEGIN -->
+        <div style="display: none; font-size: 1px; line-height: 1px; max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden; mso-hide: all; font-family: sans-serif;">
+	        &zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;
+        </div>
+        <!-- Preview Text Spacing Hack : END -->
+
+        <!--
+            Set the email width. Defined in two places:
+            1. max-width for all clients except Desktop Windows Outlook, allowing the email to squish on narrow but never go wider than 600px.
+            2. MSO tags for Desktop Windows Outlook enforce a 680px width.
+            Note: The Fluid and Responsive templates have a different width (600px). The hybrid grid is more "fragile", and I've found that 680px is a good width. Change with caution.
+        -->
+        <div style="max-width: 600px; margin: 0;" class="email-container">
+            <!--[if mso]>
+            <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="600">
+            <tr>
+            <td>
+            <![endif]-->
+
+	        <!-- Email Body : BEGIN -->
+	        <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="max-width: 600px; background-color: #542a45;">
+
+		        <!-- Header : BEGIN -->
+                    <tr>
+                        <td style="background-color: #542a45;">
+                            <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                                <tr>
+                                    <td style="padding: 10px 0 10px; font-family: sans-serif; font-size: 28px; line-height: 20px; color: #542a45;">
+                                        <a href="https://yoonryang.github.io/Newsletter/CPB/28_26-27/webview/28_26-27.html"><p align="right" style="margin: 0 0 0; font-size: 14px; color: #ce9f54">ブラウザで閲覧する</p></a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td style="padding: 20px 0 20px; text-align: center">
+                            <img src="https://prune.jp/formail/2302/01.png" width="200" height="" alt="alt_text" border="0" style="height: auto; background: #542a45; font-family: sans-serif; font-size: 15px; line-height: 15px; color: #542a45;">
+                        </td>
+                    </tr>
+		        <!-- Header : END -->
+
+	            <!-- Title + Date : BEGIN -->
+                <tr>
+                    <td style="padding: 20px 0 0; background-color: #ffffff; font-family: sans-serif; text-align: center">
+                        <h1 align="center" style="margin: 10px 0 0; font-size: 28px; line-height: 36px; color: #ce9f54; font-weight: normal;"><strong>カリフォルニアプルーンジャパン<hr>HRI トレードニュースレター</strong></h1>
+                        <h1 align="center" style="margin: 8px 0 8px; font-size: 16px; line-height: 22px; color: #333333; font-weight: normal;"><strong>2026年11月号</strong></h1>
+                    </td>
+                </tr>
+                <!-- Title + Date + Top Image : END -->
+                <!-- Header : BEGIN -->
+                <tr>
+                    <td style="background-color: #ffffff;">
+                        <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                            <tr>
+                                <td style="padding: 20px 30px 0; font-family: sans-serif; font-size: 20px; line-height: 28px; color: #333333;">
+                                    <p align="justify" style="margin: 8px 0 8px; font-size: 16px; line-height: 24px; color: #333333;">カリフォルニアプルーン協会 HRIトレードニュースレターの11月号をご覧いただき、誠にありがとうございます。日頃よりご支援を賜り、心より御礼申し上げます。</p>
+                                    <p align="justify" style="margin: 8px 0 8px; font-size: 16px; line-height: 24px; color: #333333;">カリフォルニアプルーンは、料理のイノベーションや商品開発から業界内の連携に至るまで、日本の外食・製菓製パン業界において、新たな可能性を広げ続けています。</p>
+                                    <p align="justify" style="margin: 8px 0 8px; font-size: 16px; line-height: 24px; color: #333333;">本号では、シェフや製菓業界向けの取り組み、新たなコラボレーション、そしてカリフォルニアプルーンの汎用性に関する研究などの最新の活動をご紹介します。</p>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <!-- Header : END -->
+
+                        <!-- Line : Begin -->
+                        <tr>
+                            <td style="background-color: #ffffff;">
+                                <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="90%">
+                                    <tr>
+                                        <td align="center" valign="center" style="font-size:0; padding: 10px 0 20px; background-color: #ffffff;">
+                                            <hr class="hr1">
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <!-- Line : END -->
+
+                <!-- 1st : BEGIN -->
+
+                    <!-- Top Image: BEGIN -->
+                    <tr>
+                        <td style="padding: 0 0 0; background-color: #ffffff; font-family: sans-serif; text-align: center">
+                            <img src="https://yoonryang.github.io/Newsletter/CPB/29-HRI+Trade_26-27Nov/HRI_Trade1.png" width="540" height="" alt="alt_text" border="0" style="width: 100%; max-width: 540px; height: auto; background: #ffffff; font-family: sans-serif; font-size: 15px; line-height: 15px; color: #555555; margin: auto; padding: 0 0 0; display: block;" class="g-img">
+                        </td>
+                    </tr>
+                    <!-- Top Image: END -->
+
+                    <!-- Top Text : BEGIN -->
+                    <tr>
+                    <td style="background-color: #ffffff;">
+                        <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                            <tr>
+                                <td style="padding: 20px 30px 0; font-family: sans-serif; font-size: 20px; line-height: 28px; color: #333333;">
+                                    <hl align="justify" style="margin: 8px 0 8px; font-size: 20px; line-height: 28px; color: #333333; font-weight: normal;"><strong>「六雁」秋山シェフとシェフイベントを開催(7月)</strong></hl>
+                                        <p align="justify" style="margin: 8px 0 8px; font-size: 16px; line-height: 24px; color: #333333;">7月、ミシュランガイド東京に掲載されている日本料理店「六雁」の秋山シェフとともに、外食業界関係者に向けてレセプションを開催しました。</p>
+                                        <p align="justify" style="margin: 8px 0 8px; font-size: 16px; line-height: 24px; color: #333333;">日本料理や伝統的な精進料理に精通した秋山シェフが、カリフォルニアプルーンの多彩な魅力を引き出した6品のオリジナルメニューを考案。日本料理における新たな可能性に加え、健康志向やプラントベースの食の提案にもつながる、幅広い活用方法を紹介しました。</p>
+                                        <p align="justify" style="margin: 8px 0 8px; font-size: 16px; line-height: 24px; color: #333333;">当日は約20名のシェフおよび業界関係者が参加したほか、『料理通信』とのタイアップを通じて、業界関係者を中心に36万人以上への情報発信が見込まれました。</p>
+                                        <p align="justify" style="margin: 8px 0 8px; font-size: 16px; line-height: 24px; color: #333333;">本イベントは好評で、以下の結果となりました:</p>
+
+                                            <!-- Bullet Point : BEGIN -->
+                                            <ul align="justify" style="padding-left: 24px; margin: 8px 0 8px; font-size: 16px; line-height: 24px; color: #333333;">
+                                                <li>満足度100%</li>
+                                                <li>95%がカリフォルニアプルーンを同僚や業界関係者にも勧めたいと回答</li>
+                                                <li>84.2%が今後のメニューや商品開発にカリフォルニアプルーンを取り入れることを検討したいと回答</li>
+                                            </ul>
+                                            <!-- Bullet Point : END -->
+
+                                            <!-- Button : BEGIN -->
+                                            <ul style="padding: 0; margin: 0; list-style-type: disc;">
+                                                <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin: auto;">
+                                                    <tr>
+                                                    <td style="padding: 0 0 0;">
+                                                    <td class="button-td button-td-primary" style="border-radius: 4px; background: #542a45;">
+                                                        <a class="button-a button-a-primary" href="https://youtu.be/a7C4kVPqNGY" style="background: #542a45; border: 10px solid #542a45; font-family: sans-serif; font-size: 16px; line-height: 15px; text-decoration: none; padding: 4px ; color: #ce9f54; display: block; border-radius: 3px;"><strong>ハイライトビデオ</strong></a>
+                                                    </td>
+                                                    </td>
+                                                    </tr>
+                                                </table>
+                                            </ul>
+                                            <!-- Button : END -->
+
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <!-- Top Text : END -->
+ 
+                <!-- 1st : End -->
+
+                        <!-- Line : Begin -->
+                        <tr>
+                            <td style="background-color: #ffffff;">
+                                <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="90%">
+                                    <tr>
+                                        <td align="center" valign="center" style="font-size:0; padding: 10px 0 20px; background-color: #ffffff;">
+                                            <hr class="hr1">
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <!-- Line : END -->
+
+                <!-- 2nd : BEGIN -->
+
+                    <!-- Top Image: BEGIN -->
+                    <tr>
+                        <td style="padding: 0 0 0; background-color: #ffffff; font-family: sans-serif; text-align: center">
+                            <img src="https://yoonryang.github.io/Newsletter/CPB/29-HRI+Trade_26-27Nov/HRI_Trade2.png" width="540" height="" alt="alt_text" border="0" style="width: 100%; max-width: 540px; height: auto; background: #ffffff; font-family: sans-serif; font-size: 15px; line-height: 15px; color: #555555; margin: auto; padding: 0 0 0; display: block;" class="g-img">
+                        </td>
+                    </tr>
+                    <!-- Top Image: END -->
+
+                    <!-- Top Text : BEGIN -->
+                    <tr>
+                    <td style="background-color: #ffffff;">
+                        <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                            <tr>
+                                <td style="padding: 20px 30px 0; font-family: sans-serif; font-size: 20px; line-height: 28px; color: #333333;">
+                                    <hl align="justify" style="margin: 8px 0 8px; font-size: 20px; line-height: 28px; color: #333333; font-weight: normal;"><strong>日本洋菓子協会連合会と講習会を開催(7月)</strong></hl>
+                                        <p align="justify" style="margin: 8px 0 8px; font-size: 16px; line-height: 24px; color: #333333;">日本洋菓子協会連合会と連携し、東京都内のパティスリー「パティスリー ラ・ヴィ・ドゥース(Pâtisserie LA VIE DOUCE)」のオーナーシェフ 堀江新氏を講師に迎え、プロのパティシエや製菓関係者を対象とした実演講習会を実施しました。カリフォルニアプルーンを使った5品のオリジナルメニューを実演し、洋菓子におけるカリフォルニアプルーンの多彩な使い方や、新たな可能性を紹介しました。</p>
+                                        <p align="justify" style="margin: 8px 0 8px; font-size: 16px; line-height: 24px; color: #333333;">本講習会には製パン・製菓関係者30名が参加し、高い評価をいただきました:</p>
+
+                                            <!-- Bullet Point : BEGIN -->
+                                            <ul align="justify" style="padding-left: 24px; margin: 8px 0 8px; font-size: 16px; line-height: 24px; color: #333333;">
+                                                <li>満足度100%</li>
+                                                <li>93.3%がプルーンの新たな活用アイデアを得たと回答</li>
+                                                <li>0%が業界関係者にもカリフォルニアプルーンを勧めたいと回答</li>
+                                            </ul>
+                                            <!-- Bullet Point : END -->
+
+                                            <!-- Button : BEGIN -->
+                                            <ul style="padding: 0; margin: 0; list-style-type: disc;">
+                                                <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin: auto;">
+                                                    <tr>
+                                                    <td style="padding: 0 0 0;">
+                                                    <td class="button-td button-td-primary" style="border-radius: 4px; background: #542a45;">
+                                                        <a class="button-a button-a-primary" href="https://youtu.be/DszAPsbXVF8" style="background: #542a45; border: 10px solid #542a45; font-family: sans-serif; font-size: 16px; line-height: 15px; text-decoration: none; padding: 4px ; color: #ce9f54; display: block; border-radius: 3px;"><strong>ハイライトビデオ</strong></a>
+                                                    </td>
+                                                    </td>
+                                                    </tr>
+                                                </table>
+                                            </ul>
+                                            <!-- Button : END -->
+
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <!-- Top Text : END -->
+ 
+                <!-- 2nd : End -->
+
+                        <!-- Line : Begin -->
+                        <tr>
+                            <td style="background-color: #ffffff;">
+                                <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="90%">
+                                    <tr>
+                                        <td align="center" valign="center" style="font-size:0; padding: 10px 0 20px; background-color: #ffffff;">
+                                            <hr class="hr1">
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <!-- Line : END -->
+
+                <!-- 3rd : BEGIN -->
+
+                    <!-- Top Image: BEGIN -->
+                    <tr>
+                        <td style="padding: 0 0 0; background-color: #ffffff; font-family: sans-serif; text-align: center">
+                            <img src="https://yoonryang.github.io/Newsletter/CPB/29-HRI+Trade_26-27Nov/HRI_Trade3.png" width="540" height="" alt="alt_text" border="0" style="width: 100%; max-width: 540px; height: auto; background: #ffffff; font-family: sans-serif; font-size: 15px; line-height: 15px; color: #555555; margin: auto; padding: 0 0 0; display: block;" class="g-img">
+                        </td>
+                    </tr>
+                    <!-- Top Image: END -->
+
+                    <!-- Top Text : BEGIN -->
+                    <tr>
+                    <td style="background-color: #ffffff;">
+                        <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                            <tr>
+                                <td style="padding: 20px 30px 0; font-family: sans-serif; font-size: 20px; line-height: 28px; color: #333333;">
+                                    <hl align="justify" style="margin: 8px 0 8px; font-size: 20px; line-height: 28px; color: #333333; font-weight: normal;"><strong>FABEX 関西2026に出展</strong></hl>
+                                        <p align="justify" style="margin: 8px 0 8px; font-size: 16px; line-height: 24px; color: #333333;">10月、外食・中食・小売業界に特化した日本最大級の展示会の一つ「FABEX 関西 2026」に出展しました。</p>
+                                        <p align="justify" style="margin: 8px 0 8px; font-size: 16px; line-height: 24px; color: #333333;">本展示会を通じて、業界関係者にカリフォルニアプルーンの魅力と食材としての高い汎用性をアピールするとともに、新たなHRIパートナー候補との関係構築を図りました。</p>
+
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <!-- Top Text : END -->
+
+                <!-- 3rd : End -->
+
+                        <!-- Line : Begin -->
+                        <tr>
+                            <td style="background-color: #ffffff;">
+                                <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="90%">
+                                    <tr>
+                                        <td align="center" valign="center" style="font-size:0; padding: 10px 0 20px; background-color: #ffffff;">
+                                            <hr class="hr1">
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <!-- Line : END -->
+
+                <!-- 4th : BEGIN -->
+
+                    <!-- Top Image: BEGIN -->
+                    <tr>
+                        <td style="padding: 0 0 0; background-color: #ffffff; font-family: sans-serif; text-align: center">
+                            <img src="https://yoonryang.github.io/Newsletter/CPB/29-HRI+Trade_26-27Nov/HRI_Trade4.png" width="540" height="" alt="alt_text" border="0" style="width: 100%; max-width: 540px; height: auto; background: #ffffff; font-family: sans-serif; font-size: 15px; line-height: 15px; color: #555555; margin: auto; padding: 0 0 0; display: block;" class="g-img">
+                        </td>
+                    </tr>
+                    <!-- Top Image: END -->
+
+                    <!-- Top Text : BEGIN -->
+                    <tr>
+                    <td style="background-color: #ffffff;">
+                        <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                            <tr>
+                                <td style="padding: 20px 30px 0; font-family: sans-serif; font-size: 20px; line-height: 28px; color: #333333;">
+                                    <hl align="justify" style="margin: 8px 0 8px; font-size: 20px; line-height: 28px; color: #333333; font-weight: normal;"><strong>ベーカリー＆カフェ コラボレーション(11月〜12月)</strong></hl>
+                                        <p align="justify" style="margin: 8px 0 8px; font-size: 16px; line-height: 24px; color: #333333;"><strong>● MUUN Seoul</strong></p>
+                                        <p align="justify" style="margin: 8px 0 8px; font-size: 16px; line-height: 24px; color: #333333;">人気の韓国ベーカリーカフェ「MUUN Seoul」の原宿本店にて、11月1日〜30日の期間限定で「チーズブリュレのプルーンベーグル」が販売されています。</p>
+                                        <p align="justify" style="margin: 8px 0 8px; font-size: 16px; line-height: 24px; color: #333333;"><strong>● UNI DONUTS</strong></p>
+                                        <p align="justify" style="margin: 8px 0 8px; font-size: 16px; line-height: 24px; color: #333333;">生ドーナツ専門店「UNI DONUTS」にて、新商品「カリフォルニアプルーンショコラオランジュ」が登場しました。11月1日より原宿店およびイオンモール岡崎店で先行販売を開始し、12月1日からはイオンモール大日店およびピオレ姫路店を加えた計4店舗で販売されます。</p>
+
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <!-- Top Text : END -->
+
+                <!-- 4th : End -->
+
+                        <!-- Line : Begin -->
+                        <tr>
+                            <td style="background-color: #ffffff;">
+                                <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="90%">
+                                    <tr>
+                                        <td align="center" valign="center" style="font-size:0; padding: 10px 0 20px; background-color: #ffffff;">
+                                            <hr class="hr1">
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <!-- Line : END -->
+
+                <!-- 5th : Begin -->
+
+                    <!-- Top Text : BEGIN -->
+                    <tr>
+                    <td style="background-color: #ffffff;">
+                        <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                            <tr>
+                                <td style="padding: 20px 30px 0; font-family: sans-serif; font-size: 20px; line-height: 28px; color: #333333;">
+                                    <hl align="justify" style="margin: 8px 0 8px; font-size: 20px; line-height: 28px; color: #333333; font-weight: normal;"><strong>十文字学園女子大学との共同科学研究</strong></hl>
+                                        <p align="justify" style="margin: 8px 0 8px; font-size: 16px; line-height: 24px; color: #333333;">今年、カリフォルニアプルーンの機能性や食品開発への応用の可能性を探るため、十文字学園女子大学との共同研究プロジェクトに取り組んでいます。</p>
+                                        <p align="justify" style="margin: 8px 0 8px; font-size: 16px; line-height: 24px; color: #333333;">本プロジェクトでは、食品素材としてのカリフォルニアプルーンの特性を科学的な観点から検証し、さまざまな食品への応用につながる知見を得ることを目指しています。</p>
+                                        <p align="justify" style="margin: 8px 0 8px; font-size: 16px; line-height: 24px; color: #333333;">今後も研究の進捗や新たな知見をお伝えするとともに、日本のHRI業界におけるカリフォルニアプルーンのさらなる活用の可能性を探っていきます。</p>
+
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <!-- Top Text : END -->                
+
+                <!-- 5th : End -->
+
+                        <!-- Line : Begin -->
+                        <tr>
+                            <td style="background-color: #ffffff;">
+                                <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="90%">
+                                    <tr>
+                                        <td align="center" valign="center" style="font-size:0; padding: 10px 0 20px; background-color: #ffffff;">
+                                            <hr class="hr1">
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <!-- Line : END -->
+
+                <!-- Greeting : BEGIN -->
+                    <tr>
+                        <td style="background-color: #ffffff;">
+                            <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                                <tr>
+                                    <td style="padding: 0 30px 0; font-family: sans-serif; font-size: 20px; line-height: 28px; color: #333333;">
+                                        <hl align="justify" style="margin: 8px 0 8px; font-size: 20px; line-height: 28px; color: #333333; font-weight: normal;"><strong>追加情報・サンプルのご依頼について</strong></hl>
+                                        <p align="justify" style="margin: 8px 0 8px; font-size: 16px; line-height: 22px; color: #333333;">配信に関するお問い合わせおよびサンプルのご希望は、下記までお気軽にご連絡ください。</p>
+                                        <p align="justify" style="margin: 8px 0 8px; font-size: 16px; line-height: 22px; color: #333333;"><strong><a href="mailto:cpbjapan@klt.co.jp">cpbjapan@klt.co.jp</a></strong></p>
+                                        <p align="justify" style="margin: 8px 0 8px; font-size: 16px; line-height: 22px; color: #333333;">本ニュースレターはトレードパートナー向けに配信しております。社内での共有もご自由にご活用ください。</p>
+                                        <p align="justify" style="margin: 8px 0 8px; font-size: 16px; line-height: 22px; color: #333333;">今後ともカリフォルニアプルーンの活動にご注目いただけますと幸いです。</p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                <!-- Greeting : End -->
+
+                        <!-- Line : Begin -->
+                        <tr>
+                            <td style="background-color: #ffffff;">
+                                <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="90%">
+                                    <tr>
+                                        <td align="center" valign="center" style="font-size:0; padding: 10px 0 20px ; background-color: #ffffff;">
+                                            <hr class="hr1">
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <!-- Line : END -->
+
+                <!-- Message : BEGIN -->
+                    <tr>
+                        <td style="background-color: #f3f3f3;">
+                            <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                                <tr>
+                                    <td style="padding: 0 30px 0; font-family: sans-serif; font-size: 15px; line-height: 40px; color: #555555;">
+                                        <h1 align="center" style="margin: 10px 0 0; font-family: sans-serif; font-size: 20px; line-height: 20px; color: #333333; font-weight: normal;"><strong>お問い合わせ先</strong></h1>
+                                        <p align="justify" style="margin: 10px 0 0 ; font-family: sans-serif; font-size: 16px; line-height: 22px; background-color: #f3f3f3; color: #333333;">配信に関する問い合わせ・質問は日本トレード代表宛にご連絡下さい。</p>
+                                        <p align="left" style="margin: 0 ; font-family: sans-serif; font-size: 16px; line-height: 22px; background-color: #f3f3f3; color: #333333;"><strong><a href="mailto:caprunes@rlassociates.co.jp">caprunes@rlassociates.co.jp</a></strong></p>
+                                        <p align="justify" style="margin: 10px 0 20px ; font-family: sans-serif; font-size: 16px; line-height: 22px; background-color: #f3f3f3; color: #333333;">本ニュースレターに関するご意見・ご要望をお待ちしております。その他の最新情報などにつきましては、下記日本語公式ページをご覧ください。</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0 20px 20px;">
+                                        <!-- Button : BEGIN -->
+                                            <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin: auto;">
+                                                <tr>
+                                                    <td class="button-td button-td-primary" style="border-radius: 4px; background: #542a45;">
+                                                        <a class="button-a button-a-primary" href="https://www.prune.jp" style="background: #542a45; border: 10px solid #542a45; font-family: sans-serif; font-size: 16px; line-height: 15px; text-decoration: none; padding: 4px; color: #ce9f54; display: block; border-radius: 4px;"><strong>カリフォルニアプルーン協会日本公式ページ</strong></a>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        <!-- Button : END -->
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                <!-- Message : END -->
+
+            <!-- Email Footer : BEGIN -->
+
+                <!-- CPB Logo : BEGIN -->
+                <tr>
+	                <td style="padding: 20px 0 20px; text-align: center">
+	                    <img src="https://prune.jp/formail/2302/01.png" width="200" height="" alt="alt_text" border="0" style="height: auto; background: #542a45; font-family: sans-serif; font-size: 15px; line-height: 15px; color: #542a45;">
+	                </td>
+	            </tr>
+                <!-- CPB Logo : END -->
+
+                <!-- Footer Copy : BEGIN -->
+                <tr>
+                    <td style="background-color: #542a45;">
+                        <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                            <tr>
+                                <td style="padding: 0 10px 0; font-family: sans-serif; font-size: 18px; line-height: 40px; color: #ce9f54;">
+                                    <h1 align="center" style="margin: 0 0 10px; font-size: 24px; line-height: 36px; color: #ce9f54; font-weight: normal;"><strong>CPB building tomorrow's demand and<br>value for premium California Prunes</strong></h1>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <!-- Footer Copy : END -->
+
+                <!-- SNS Icons : BEGIN -->
+                    <tr>
+                        <td align="center" valign="top" style="font-size:0; padding: 20px 0 20px ; background-color: #542a45;">
+                            <!--[if mso]>
+                            <table role="presentation" border="0" cellspacing="0" cellpadding="0" width="600">
+                            <tr>
+                            <td valign="top" width="120">
+                            <![endif]-->
+                            <div style="display:inline-block; margin: 0 ; max-width: 17%; vertical-align:top; width:100%;">
+                                <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                                    <tr>
+                                        <td style="padding: 0;">
+                                            <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="font-size: 14px;text-align: center;">
+                                                <tr>
+                                                    <td>
+                                                        <a href="https://twitter.com/prune_fan"><img src="https://prune.jp/formail/X_CPB_Gold.png" width="48" height="" border="0" alt="alt_text" style="width: 100%; max-width: 48px; height: auto; background: #542a45; font-family: sans-serif; font-size: 14px; line-height: 20px; color: #555555;" class="center-on-narrow">
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <!--[if mso]>
+                            </td>
+
+                            <td valign="top" width="120">
+                            <![endif]-->
+                            <div style="display:inline-block; margin: 0 ; max-width: 17%; vertical-align:top; width:100%;">
+                                <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                                    <tr>
+                                        <td style="padding: 0;">
+                                            <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="font-size: 14px;text-align: center;">
+                                                <tr>
+                                                    <td>
+                                                        <a href="https://www.instagram.com/californiaprunejp/"><img src="https://prune.jp/formail/Instagram_CPB_Gold.png" width="48" height"" border="0" alt="alt_text" style="width: 100%; max-width: 48px; height: auto; background: #542a45; font-family: sans-serif; font-size: 14px; line-height: 20px; color: #555555;" class="center-on-narrow">
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <!--[if mso]>
+                            </td>
+
+                            <td valign="top" width="120">
+                            <![endif]-->
+                            <div style="display:inline-block; margin: 0 ; max-width: 17%; vertical-align:top; width:100%;">
+                                <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                                    <tr>
+                                        <td style="padding: 0;">
+                                            <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="font-size: 14px;text-align: center;">
+                                                <tr>
+                                                    <td>
+                                                        <a href="https://www.facebook.com/prunefan/"><img src="https://prune.jp/formail/Facebook_CPB_Gold.png" width="48" height="" border="0" alt="alt_text" style="width: 100%; max-width: 48px; height: auto; background: #542a45; font-family: sans-serif; font-size: 14px; line-height: 20px; color: #555555;" class="center-on-narrow">
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <!--[if mso]>
+                            </td>
+
+                            <td valign="top" width="120">
+                            <![endif]-->
+                            <div style="display:inline-block; margin: 0 ; max-width: 17%; vertical-align:top; width:100%;">
+                                <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                                    <tr>
+                                        <td style="padding: 0;">
+                                            <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="font-size: 14px;text-align: center;">
+                                                <tr>
+                                                    <td>
+                                                        <a href="https://youtube.com/@JPcaliforniaprune?si=in1td2wAkYcCwaLr"><img src="https://prune.jp/formail/YouTube_CPB_Gold.png" width="48" height="" border="0" alt="alt_text" style="width: 100%; max-width: 48px; height: auto; background: #542a45; font-family: sans-serif; font-size: 14px; line-height: 20px; color: #555555;" class="center-on-narrow">
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <!--[if mso]>
+                            </td>
+
+                            <td valign="top" width="120">
+                            <![endif]-->
+                            <div style="display:inline-block; margin: 0 ; max-width: 17%; vertical-align:top; width:100%;">
+                                <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                                    <tr>
+                                        <td style="padding: 0;">
+                                            <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="font-size: 14px;text-align: center;">
+                                                <tr>
+                                                    <td>
+                                                        <a href="https://www.linkedin.com/company/caprunesjp/"><img src="https://prune.jp/formail/LinkedIn_CPB_Gold.png" width="48" height="" border="0" alt="alt_text" style="width: 100%; max-width: 48px; height: auto; background: #542a45; font-family: sans-serif; font-size: 14px; line-height: 20px; color: #555555;" class="center-on-narrow">
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <!--[if mso]>
+                            </td>
+                            </tr>
+                            </table>
+                            <![endif]-->
+                        </td>
+                    </tr>
+                <!-- SNS Icons : END -->
+            
+            <!-- Email Footer : END -->
+
+            </table>
+            <!-- Email Body : END -->
+
+            <!--[if mso]>
+            </td>
+            </tr>
+            </table>
+            <![endif]-->
+
+    <!--[if mso | IE]>
+    </div>
+    </td>
+    </tr>
+    </table>
+    <![endif]-->
+</div>
+</center>
+</body>
+</html>
